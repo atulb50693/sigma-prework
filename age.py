@@ -10,6 +10,11 @@ def get_date_from_user():
         date_inputted = input("Enter a date in the form 'dd-mm-yyyy': ")
         input_check_list = date_inputted.split('-')
         wrong_format = False
+
+        # Checking if input passed is non-decimal
+        if not date_inputted.replace('-', '').isdecimal():
+            wrong_format = True
+            continue
         
         # checking if the format is correct (hyphen in correct place, not longer than format, numbers given in required format)
         for i, chr in enumerate(date_inputted):
@@ -20,11 +25,9 @@ def get_date_from_user():
         
         # Checking if the number is within the specified range for days (31 in month) and months (12 in year)
         for i, number in enumerate(input_check_list):
-            if i == 0 and not (1 <= int(number) <= 31):
+            if (i == 0 and not (1 <= int(number) <= 31)) or (i == 1 and not (1 <= int(number) <= 12)):
                 wrong_format = True
-            elif i == 1 and not (1 <= int(number) <= 12):
-                wrong_format = True
-        
+            
         # If formatting is correct and a valid date, then user-input is returned
         if not wrong_format:
             return date_inputted
@@ -54,5 +57,5 @@ user_date_converted = convert_string_to_date_object(date_inputted)
 
 age_of_user = find_age(user_date_converted)
 
-print(age_of_user)
+print(f"If you were born on {date_inputted}, then you would be {age_of_user} years old.")
 
